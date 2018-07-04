@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AdvertisingServer.Infrastructure.Extensions;
 using AdvertisingServer.Infrastructure.Interfaces;
 using AdvertisingServer.Infrastructure.Services;
 using AdvertisingServer.Models;
@@ -39,9 +40,7 @@ namespace AdvertisingServer
 
             services.AddDbContextPool<MarketingContext>(options => options.UseInMemoryDatabase("MarketingDb"));
 
-            services.AddTransient<IAdvertisingService, IAdvertisingService>();
-            services.AddTransient<IChannelService, ChannelService>();
-            services.AddTransient<IPublishingService, PublishingService>();
+            services.AddMarketingServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

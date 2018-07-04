@@ -1,11 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AdvertisingServer.Models.DbContext
 {
     public class Publishing
     {
+        public int Id { get; set; }
+        public string Token { get; set; }
+        public int AdvertisingId { get; set; }
+        public int ChannelId { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public decimal Amount { get; set; }
     }
 }
