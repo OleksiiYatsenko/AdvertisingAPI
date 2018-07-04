@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using AdvertisingServer.Infrastructure.Interfaces;
+﻿using AdvertisingServer.Infrastructure.Interfaces;
 using AdvertisingServer.Models.DbContext;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+using AdvertisingServer.Models.Dto.Advertising;
 
 namespace AdvertisingServer.Controllers.V1
 {
@@ -26,14 +24,14 @@ namespace AdvertisingServer.Controllers.V1
         // GET api/values
         [HttpGet]
         [SwaggerOperation(nameof(Get))]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(Advertising), "Returns all yours advertising")]
+        [SwaggerResponse((int)HttpStatusCode.OK, typeof(AdvertisingBase), "Returns all yours advertising")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, description: "Resturn 404 status elements not found")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Returns 400 if not all parameters were specified")]
-        public ActionResult<IEnumerable<Advertising>> Get()
+        public async Task<ActionResult<IEnumerable<AdvertisingBase>>> Get()
         {
-            var result = new Advertising();
+            var result = new List<AdvertisingBase>();
 
-            return Ok(result);
+            return result;
         }
 
         // GET api/values/5

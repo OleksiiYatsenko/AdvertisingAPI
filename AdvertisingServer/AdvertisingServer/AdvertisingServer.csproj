@@ -6,9 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Infrastructure\AutoMapper\" />
-    <Folder Include="Models\Dto\Advertising\" />
-    <Folder Include="Models\Dto\Channel\" />
-    <Folder Include="Models\Dto\Publishing\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -18,6 +15,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="StyleCop.MSBuild" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="2.5.0" />
   </ItemGroup>
 

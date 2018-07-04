@@ -4,7 +4,7 @@ namespace AdvertisingServer.Models.DbContext
 {
     public class Channel
     {
-        public int Id { get; set; }
+        public int ChannelId { get; set; }
         public string Name { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }

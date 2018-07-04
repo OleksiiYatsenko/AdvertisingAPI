@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdvertisingServer.Models
 {
-    public class MarketingContext : Microsoft.EntityFrameworkCore.DbContext
+    public class MarketingDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        public MarketingContext()
+        public MarketingDbContext()
         {
         }
 
-        public MarketingContext(DbContextOptions<MarketingContext> options) : base(options)
+        public MarketingDbContext(DbContextOptions<MarketingDbContext> options) : base(options)
         {
         }
 

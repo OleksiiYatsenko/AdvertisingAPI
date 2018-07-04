@@ -4,7 +4,7 @@ namespace AdvertisingServer.Models.DbContext
 {
     public class Publishing
     {
-        public int Id { get; set; }
+        public int PublishingId { get; set; }
         public string Token { get; set; }
         public int AdvertisingId { get; set; }
         public int ChannelId { get; set; }
