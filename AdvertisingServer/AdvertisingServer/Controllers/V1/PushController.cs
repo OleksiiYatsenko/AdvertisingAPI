@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AdvertisingServer.Controllers
+namespace AdvertisingServer.Controllers.V1
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AdvertisingServer.Infrastructure.Interfaces
 {
-    interface IAdvertisingService
+    public interface IAdvertisingService
     {
     }
 }
