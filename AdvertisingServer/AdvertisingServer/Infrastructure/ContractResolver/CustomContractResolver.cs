@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace AdvertisingServer.Infrastructure.ContractResolver
 {
-    public class CustomContractResolver : DefaultContractResolver//IContractResolver
+    public class CustomContractResolver : DefaultContractResolver
     {
         public string[] AllowList { get; set; }
 

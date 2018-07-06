@@ -5,6 +5,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using AdvertisingServer.Constants;
 using AdvertisingServer.Models.Dto.Advertising;
 
 namespace AdvertisingServer.Controllers.V1
@@ -27,18 +28,34 @@ namespace AdvertisingServer.Controllers.V1
         [SwaggerResponse((int)HttpStatusCode.OK, typeof(AdvertisingBase), "Returns all yours advertising")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, description: "Resturn 404 status elements not found")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Returns 400 if not all parameters were specified")]
-        public async Task<ActionResult<IEnumerable<AdvertisingBase>>> Get()
+        public async Task<ActionResult<IEnumerable<AdvertisingBase>>> Get(string token)
         {
-            var result = new List<AdvertisingBase>();
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return BadRequest(ResponseMessages.NotAllParametersSpecified);
+            }
+            var result = await _adService.GetListOfAdvertisingByTokenAsync(token);
 
-            return result;
+            return Ok(result);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public async Task<ActionResult<AdvertisingBase>> Get(int id, string token)
         {
-            return "value";
+            if (id <= 0 || string.IsNullOrWhiteSpace(token))
+            {
+                return BadRequest(ResponseMessages.NotAllParametersSpecified);
+            }
+
+            var responce = await _adService.GetAdvertisingByIdAndTokenAsync(id, token);
+
+            if (responce == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(responce);
         }
 
         // POST api/values

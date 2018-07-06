@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvertisingServer", "AdvertisingServer\AdvertisingServer.csproj", "{775B848B-8645-4857-8675-EEFA3822EA7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdvertisingServer", "AdvertisingServer\AdvertisingServer.csproj", "{775B848B-8645-4857-8675-EEFA3822EA7F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C7AB4C84-D30D-42FD-A8D8-25FCC0FDAC40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvertisingServer.UnitTests", "AdvertisingServer.UnitTests\AdvertisingServer.UnitTests.csproj", "{4AD4BBB2-8AB5-4773-922C-4646BAF193A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{775B848B-8645-4857-8675-EEFA3822EA7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{775B848B-8645-4857-8675-EEFA3822EA7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{775B848B-8645-4857-8675-EEFA3822EA7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AD4BBB2-8AB5-4773-922C-4646BAF193A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AD4BBB2-8AB5-4773-922C-4646BAF193A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AD4BBB2-8AB5-4773-922C-4646BAF193A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AD4BBB2-8AB5-4773-922C-4646BAF193A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4AD4BBB2-8AB5-4773-922C-4646BAF193A7} = {C7AB4C84-D30D-42FD-A8D8-25FCC0FDAC40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17DAFAEB-898F-4628-89A5-DC964D11BC31}
