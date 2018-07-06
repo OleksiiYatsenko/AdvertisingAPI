@@ -15,20 +15,22 @@ namespace AdvertisingServer.UnitTests.DataFixture
     {
         private readonly Faker<Advertising> _testAdvertising;
         private readonly Faker<AdvertisingBase> _testAdvertisingDto;
-        private static readonly string[] tokens = new string[] { "usertoken1", "usertoken2", "usertoken3", "usertoken4", "usertoken5" };
+
+        private static readonly string[] Tokens =
+            {"usertoken1", "usertoken2", "usertoken3", "usertoken4", "usertoken5"};
 
         public AdvertisingDataFixture()
         {
             _testAdvertising = new Faker<Advertising>()
                 .RuleFor(a => a.AdvertisingId, x => x.UniqueIndex)
-                .RuleFor(a => a.Token, x => x.PickRandom(tokens))
+                .RuleFor(a => a.Token, x => x.PickRandom(Tokens))
                 .RuleFor(a => a.Content, x => x.Random.Bytes(255))
                 .RuleFor(a => a.Text, x => x.Lorem.Lines(4))
                 .RuleFor(a => a.CreatedDate, x => x.Date.Past(1))
                 .RuleFor(a => a.UpdatedDate, x => x.Date.Recent(30));
 
             _testAdvertisingDto = new Faker<AdvertisingBase>()
-                .RuleFor(a => a.Token, x => x.PickRandom(tokens));
+                .RuleFor(a => a.Token, x => x.PickRandom(Tokens));
         }
 
         public void InsertTestDataToDb(MarketingDbContext db)
@@ -66,5 +68,10 @@ namespace AdvertisingServer.UnitTests.DataFixture
         {
             return db.Advertisings.Max(x => x.AdvertisingId) + 100;
         }
-    }
+
+        public string GetRandomToken()
+        {
+            return new Faker().PickRandom(Tokens);
+        }
+}
 }

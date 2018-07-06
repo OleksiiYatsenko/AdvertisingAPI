@@ -1,5 +1,4 @@
 ﻿using AdvertisingServer.Infrastructure.Interfaces;
-using AdvertisingServer.Models.DbContext;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;

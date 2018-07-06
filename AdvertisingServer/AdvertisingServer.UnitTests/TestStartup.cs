@@ -19,8 +19,8 @@ namespace AdvertisingServer.UnitTests
             services.Replace<IAdvertisingService, AdvertisingService>(ServiceLifetime.Transient);
             services.Replace<IChannelService, ChannelService>(ServiceLifetime.Transient);
             services.Replace<IPublishingService, PublishingService>(ServiceLifetime.Transient);
-
-            services.AddDbContextPool<MarketingDbContext>(opt => opt.UseInMemoryDatabase("MarketingDb"));
+            services.Remove<MarketingDbContext>();
+            services.AddDbContextPool<MarketingDbContext>(opt => opt.UseInMemoryDatabase("MarketingDbForTests"));
         }
     }
 }

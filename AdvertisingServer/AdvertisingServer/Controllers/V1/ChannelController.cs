@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AdvertisingServer.Controllers.V1
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class ChannelController : ControllerBase
     {
         // GET: api/Channel
@@ -19,7 +20,7 @@ namespace AdvertisingServer.Controllers.V1
         }
 
         // GET: api/Channel/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";

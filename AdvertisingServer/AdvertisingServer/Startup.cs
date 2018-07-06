@@ -1,4 +1,5 @@
-﻿using AdvertisingServer.Infrastructure.Extensions;
+﻿using System;
+using AdvertisingServer.Infrastructure.Extensions;
 using AdvertisingServer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,11 +30,18 @@ namespace AdvertisingServer
                 o.DefaultApiVersion = new ApiVersion(1, 0);
             });
 
-            services.AddDbContextPool<MarketingDbContext>(options => options.UseInMemoryDatabase("MarketingDb"));
+            services.AddEntityFrameworkInMemoryDatabase();
+
+            services.AddDbContextPool<MarketingDbContext>((serviceProvider, options) =>
+            {
+                options.UseInMemoryDatabase("MarketingDb");
+                options.UseInternalServiceProvider(serviceProvider);
+            });
 
             services.AddMarketingServices();
 
             services.RegisterSwaggerDoc();
+            services.RegisterMapperConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,10 +58,15 @@ namespace AdvertisingServer
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Advertising API server"); });
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Advertising API v1");
+                c.RoutePrefix = String.Empty;
+            });
 
             app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
 }
+;

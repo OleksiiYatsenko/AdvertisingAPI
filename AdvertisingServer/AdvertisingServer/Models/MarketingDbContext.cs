@@ -9,13 +9,10 @@ namespace AdvertisingServer.Models
 {
     public class MarketingDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        public MarketingDbContext()
-        {
-        }
-
         public MarketingDbContext(DbContextOptions<MarketingDbContext> options) : base(options)
         {
         }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
