@@ -1,21 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using AdvertisingServer.Controllers.V1;
+using AdvertisingServer.Infrastructure.Extensions;
+using AdvertisingServer.Infrastructure.Interfaces;
+using AdvertisingServer.Infrastructure.Services;
 using AdvertisingServer.Models;
 using AdvertisingServer.UnitTests.DataFixture;
+using LightInject;
 using Microsoft.AspNetCore.Mvc;
-//using MyTested.AspNetCore.Mvc;
-//using MyTested.AspNetCore.Mvc.Builders.Contracts.Controllers;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdvertisingServer.UnitTests
 {
-    public class ApiTestBase<T> where T : ControllerBase
+    public abstract class ApiTestBase<T> where T : ControllerBase
     {
-        //protected readonly IControllerBuilder<T> Controller;
-
+        protected static IServiceContainer Container;
+        protected T Controller;
         protected ApiTestBase()
         {
-            //Controller = MyMvc.Controller<T>();
+            Controller = Container.GetInstance<T>();
+        }
+
+        protected void InsertTestData(AdvertisingDataFixture advertisingData)
+        {
+            var db = Container.GetInstance<MarketingDbContext>();
+            advertisingData.InsertTestDataToDb(db);
+        }
+
+        public static void Configure(IServiceContainer container)
+        {
+            container.RegisterMapperConfiguration();
+
+            container.Register<IAdvertisingService, AdvertisingService>();
+            container.Register<IChannelService, ChannelService>();
+            container.Register<IPublishingService, PublishingService>();
+            container.Register<AdvertisingController, AdvertisingController>();
+            container.Register<ChannelController, ChannelController>();
+            container.Register<PushController, PushController>();
+
+            container.Register(_ =>
+            {
+                var builder = new DbContextOptionsBuilder<MarketingDbContext>();
+                builder.UseInMemoryDatabase("MarketingServer");
+                return new MarketingDbContext(builder.Options);
+            });
+
+            Container = container;
         }
     }
 }

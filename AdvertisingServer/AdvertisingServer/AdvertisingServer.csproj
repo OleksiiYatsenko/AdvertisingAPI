@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="LightInject" Version="5.1.5" />
+    <PackageReference Include="LightInject.Microsoft.DependencyInjection" Version="2.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />

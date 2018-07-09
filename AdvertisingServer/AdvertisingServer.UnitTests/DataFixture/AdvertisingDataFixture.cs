@@ -22,7 +22,6 @@ namespace AdvertisingServer.UnitTests.DataFixture
         public AdvertisingDataFixture()
         {
             _testAdvertising = new Faker<Advertising>()
-                .RuleFor(a => a.AdvertisingId, x => x.UniqueIndex)
                 .RuleFor(a => a.Token, x => x.PickRandom(Tokens))
                 .RuleFor(a => a.Content, x => x.Random.Bytes(255))
                 .RuleFor(a => a.Text, x => x.Lorem.Lines(4))
@@ -35,7 +34,7 @@ namespace AdvertisingServer.UnitTests.DataFixture
 
         public void InsertTestDataToDb(MarketingDbContext db)
         {
-            if (EnumerableExtensions.Any(db.Advertisings))
+            if (db.Advertisings.Any())
             {
                 return;
             }

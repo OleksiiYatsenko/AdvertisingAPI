@@ -7,10 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TestStartup.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="Bogus" Version="22.3.1" />
+    <PackageReference Include="FluentAssertions" Version="5.4.1" />
+    <PackageReference Include="LightInject" Version="5.1.5" />
+    <PackageReference Include="LightInject.xUnit" Version="3.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
-    <PackageReference Include="MyTested.AspNetCore.Mvc" Version="1.1.0" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />

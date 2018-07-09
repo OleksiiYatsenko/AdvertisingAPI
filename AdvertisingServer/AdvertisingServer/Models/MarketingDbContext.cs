@@ -13,7 +13,6 @@ namespace AdvertisingServer.Models
         {
         }
         
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
             if (!optionBuilder.IsConfigured)

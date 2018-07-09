@@ -1,6 +1,8 @@
 ﻿using System;
 using AdvertisingServer.Infrastructure.Extensions;
 using AdvertisingServer.Models;
+using LightInject;
+using LightInject.Microsoft.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -20,9 +22,9 @@ namespace AdvertisingServer
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
 
             services.AddApiVersioning(o =>
             {
@@ -42,6 +44,11 @@ namespace AdvertisingServer
 
             services.RegisterSwaggerDoc();
             services.RegisterMapperConfiguration();
+
+            var containerOptions = new ContainerOptions { EnablePropertyInjection = false };
+
+            var container = new ServiceContainer(containerOptions);
+            return container.CreateServiceProvider(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

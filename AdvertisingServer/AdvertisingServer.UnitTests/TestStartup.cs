@@ -1,7 +1,5 @@
 using AdvertisingServer.Infrastructure.Interfaces;
 using AdvertisingServer.Infrastructure.Services;
-using AdvertisingServer.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyTested.AspNetCore.Mvc;
@@ -19,8 +17,8 @@ namespace AdvertisingServer.UnitTests
             services.Replace<IAdvertisingService, AdvertisingService>(ServiceLifetime.Transient);
             services.Replace<IChannelService, ChannelService>(ServiceLifetime.Transient);
             services.Replace<IPublishingService, PublishingService>(ServiceLifetime.Transient);
-            services.Remove<MarketingDbContext>();
-            services.AddDbContextPool<MarketingDbContext>(opt => opt.UseInMemoryDatabase("MarketingDbForTests"));
+
+
         }
     }
 }
