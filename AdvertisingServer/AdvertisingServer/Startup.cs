@@ -26,6 +26,8 @@ namespace AdvertisingServer
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
 
+            services.AddCors();
+
             services.AddApiVersioning(o =>
             {
                 o.AssumeDefaultVersionWhenUnspecified = true;
@@ -62,6 +64,8 @@ namespace AdvertisingServer
             {
                 app.UseHsts();
             }
+
+            app.UseCors("AllowSpecificOrigins");
 
             app.UseSwagger();
 

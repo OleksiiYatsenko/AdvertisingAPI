@@ -2,6 +2,6 @@
 {
     public class ResponseMessages
     {
-        public const string NotAllParametersSpecified = "Not all parameters specified";
+        public const string NotAllParametersSpecified = "Invalid parametest: {0}";
     }
 }

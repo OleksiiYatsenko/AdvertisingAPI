@@ -28,7 +28,7 @@ namespace AdvertisingServer.UnitTests
             var ad = _advertisingData.GetRandomAdvertising(db);
 
             //act
-            var result = await Controller.Get(ad.AdvertisingId, ad.Token);
+            var result = await Controller.GetById(ad.AdvertisingId, ad.Token);
 
             //assert
             var advertising = result.ToModel<AdvertisingBase, OkObjectResult>();
@@ -44,7 +44,7 @@ namespace AdvertisingServer.UnitTests
             var token = _advertisingData.GetRandomToken();
 
             //act
-            var result = await Controller.Get(id, token);
+            var result = await Controller.GetById(id, token);
 
             //assert
             result.Result.Should().BeOfType<NotFoundResult>();
@@ -57,7 +57,7 @@ namespace AdvertisingServer.UnitTests
             var token = _advertisingData.GetRandomToken();
 
             //act
-            var result = await Controller.Get(0, token);
+            var result = await Controller.GetById(0, token);
 
             //assert
             result.Result.Should().BeOfType<BadRequestObjectResult>();
