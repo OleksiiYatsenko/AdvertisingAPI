@@ -13,24 +13,24 @@ namespace AdvertisingServer.Infrastructure.Services
 {
     public class AdvertisingService : IAdvertisingService
     {
-        private readonly MarketingDbContext _context;
+        private readonly MarketingDbContext _db;
         private readonly IMapper _mapper;
 
-        public AdvertisingService(IMapper mapper, MarketingDbContext context)
+        public AdvertisingService(IMapper mapper, MarketingDbContext db)
         {
             _mapper = mapper;
-            _context = context;
+            _db = db;
         }
 
         public async Task<AdvertisingBase> GetAdvertisingByIdAndTokenAsync(int id, string token)
         {
-            var result = await _context.Advertisings.FirstOrDefaultAsync(a => a.AdvertisingId == id && a.Token == token);
+            var result = await _db.Advertisings.AsNoTracking().FirstOrDefaultAsync(a => a.AdvertisingId == id && a.Token == token);
             return _mapper.Map<AdvertisingBase>(result);
         }
 
         public async Task<IEnumerable<AdvertisingBase>> GetListOfAdvertisingByTokenAsync(string token)
         {
-            var result = await _context.Advertisings.Where(a => a.Token == token).ToArrayAsync();
+            var result = await _db.Advertisings.AsNoTracking().Where(a => a.Token == token).ToArrayAsync();
             return _mapper.Map<AdvertisingBase[]>(result);
         }
 
@@ -40,15 +40,15 @@ namespace AdvertisingServer.Infrastructure.Services
             advertising.CreatedDate = DateTime.Now;
             advertising.UpdatedDate = advertising.CreatedDate;
 
-            _context.Advertisings.Add(advertising);
-            await _context.SaveChangesAsync();
+            _db.Advertisings.Add(advertising);
+            await _db.SaveChangesAsync();
 
             return _mapper.Map<AdvertisingBase>(advertising);
         }
 
         public async Task UpdateAdvertisingAsync(AdvertisingBase advertisingRequest)
         {
-            var advertising = await _context.Advertisings.FirstOrDefaultAsync(a =>
+            var advertising = await _db.Advertisings.FirstOrDefaultAsync(a =>
                 a.AdvertisingId == advertisingRequest.AdvertisingId && a.Token == advertisingRequest.Token);
 
             if (advertising != null)
@@ -56,16 +56,16 @@ namespace AdvertisingServer.Infrastructure.Services
                 _mapper.Map(advertisingRequest, advertising);
             }
 
-            await _context.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteAdvertisingAsync(int id, string token)
         {
             var advertising =
-                await _context.Advertisings.FirstOrDefaultAsync(a => a.AdvertisingId == id && a.Token == token);
+                await _db.Advertisings.FirstOrDefaultAsync(a => a.AdvertisingId == id && a.Token == token);
 
-            _context.Advertisings.Remove(advertising);
-            await _context.SaveChangesAsync();
+            _db.Advertisings.Remove(advertising);
+            await _db.SaveChangesAsync();
         }
     }
 }

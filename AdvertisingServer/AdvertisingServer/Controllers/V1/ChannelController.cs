@@ -1,47 +1,112 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using AdvertisingServer.Infrastructure.Base;
+using AdvertisingServer.Infrastructure.Interfaces;
+using AdvertisingServer.Models.Constants;
+using AdvertisingServer.Models.Dto.Channel;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace AdvertisingServer.Controllers.V1
 {
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
-    public class ChannelController : ControllerBase
+    public class ChannelController : BaseMarketingController
     {
-        // GET: api/Channel
+        private readonly IChannelService _channelService;
+
+        public ChannelController(IChannelService service)
+        {
+            _channelService = service;
+        }
+        
         [HttpGet]
-        public IEnumerable<string> Get()
+        [SwaggerOperation(nameof(GetAll))]
+        [SwaggerResponse((int)HttpStatusCode.OK, typeof(IEnumerable<ChannelBase>), "Successfully found available channels")]
+        public async Task<ActionResult<IEnumerable<ChannelBase>>> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            var result = await _channelService.GetChannelsAsync();
+            return Ok(result);
         }
-
-        // GET: api/Channel/5
+        
         [HttpGet("{id}")]
-        public string Get(int id)
+        [SwaggerOperation(nameof(GetById))]
+        [SwaggerResponse((int)HttpStatusCode.OK, typeof(ChannelBase), "Successfully found channel")]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Channel not found")]
+        [SwaggerResponse((int)HttpStatusCode.NotFound, description: "Invalid parameters were specified")]
+        public async Task<ActionResult<ChannelBase>> GetById(int id)
         {
-            return "value";
-        }
+            if (CheckValue(id, nameof(id)))
+            {
+                return BadRequest(string.Format(Messages.NotAllParametersSpecified, Container.ToString()));
+            }
 
-        // POST: api/Channel
+            var result = await _channelService.GetChannelByIdAsync(id);
+            if (result == null)
+            {
+                return NotFound(Messages.NoEntitiesFoundWithSpecifiedCriteria);
+            }
+
+            return Ok(result);
+        }
+        
         [HttpPost]
-        public void Post([FromBody] string value)
+        [SwaggerOperation(nameof(Create))]
+        [SwaggerResponse((int)HttpStatusCode.Created, typeof(ChannelBase), "Channel successfully created")]
+        public async Task<ActionResult<ChannelBase>> Create([FromBody] ChannelBase request)
         {
+            request.ChannelId = 0;
+            var response = await _channelService.AddChannelAsync(request);
+            return CreatedAtRoute(nameof(GetById), new {id = response.ChannelId}, response);
         }
-
-        // PUT: api/Channel/5
+        
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [SwaggerOperation(nameof(Update))]
+        [SwaggerResponse((int)HttpStatusCode.OK, description: "Channel successfully updated")]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Channel not found")]
+        [SwaggerResponse((int)HttpStatusCode.NotFound, description: "Invalid parameters were specified")]
+        public async Task<IActionResult> Update(int id, [FromBody] ChannelBase request)
         {
-        }
+            if (CheckValue(id, nameof(id)))
+            {
+                return BadRequest(string.Format(Messages.NotAllParametersSpecified, Container.ToString()));
+            }
 
-        // DELETE: api/ApiWithActions/5
+            var channel = await _channelService.GetChannelByIdAsync(id);
+            if (channel == null)
+            {
+                return NotFound(string.Format(Messages.NoEntitiesFoundWithSpecifiedCriteria));
+            }
+
+            await _channelService.UpdateChannelAsync(request);
+
+            return Ok();
+
+        }
+        
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [SwaggerOperation(nameof(Delete))]
+        [SwaggerResponse((int)HttpStatusCode.OK, description: "Channel successfully deleted")]
+        [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Channel not found")]
+        [SwaggerResponse((int)HttpStatusCode.NotFound, description: "Invalid parameters were specified")]
+        public async Task<IActionResult> Delete(int id)
         {
+            if (CheckValue(id, nameof(id)))
+            {
+                return BadRequest(string.Format(Messages.NotAllParametersSpecified, Container.ToString()));
+            }
+
+            var channel = await _channelService.GetChannelByIdAsync(id);
+            if (channel == null)
+            {
+                return NotFound(string.Format(Messages.NoEntitiesFoundWithSpecifiedCriteria));
+            }
+
+            await _channelService.DeleteChannelAsync(id);
+
+            return Ok();
         }
     }
 }

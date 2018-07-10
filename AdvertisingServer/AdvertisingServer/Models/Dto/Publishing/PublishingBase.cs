@@ -5,5 +5,6 @@
         public int AdvertisingId { get; set; }
         public string Token { get; set; }
         public int ChannelId { get; set; }
+        public int PublishingId { get; set; }
     }
 }
