@@ -11,6 +11,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AdvertisingServer.Infrastructure.Services
 {
+    /// <summary>
+    /// Bussiness logic and data access layer for advertising
+    /// </summary>
+    /// <seealso cref="AdvertisingServer.Infrastructure.Interfaces.IAdvertisingService" />
     public class AdvertisingService : IAdvertisingService
     {
         private readonly MarketingDbContext _db;

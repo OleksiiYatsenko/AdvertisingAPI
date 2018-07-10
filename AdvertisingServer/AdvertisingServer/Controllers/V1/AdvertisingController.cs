@@ -28,7 +28,7 @@ namespace AdvertisingServer.Controllers.V1
         [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Specified invalid parametes")]
         public async Task<ActionResult<IEnumerable<AdvertisingBase>>> GetAll(string token)
         {
-            if(CheckValue(token, nameof(token)))
+            if (CheckValue(token, nameof(token)))
             {
                 return BadRequest(string.Format(Messages.NotAllParametersSpecified, Container.ToString()));
             }
@@ -77,14 +77,14 @@ namespace AdvertisingServer.Controllers.V1
         [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Invalid parameters were specified")]
         public async Task<IActionResult> Update(int id, [FromBody] AdvertisingBase upsertRequest)
         {
-            if(CheckValue(id, nameof(id)))
+            if (CheckValue(id, nameof(id)))
             {
                 return BadRequest(string.Format(Messages.NotAllParametersSpecified, Container.ToString()));
             }
 
             var advertising = await _adService.GetAdvertisingByIdAndTokenAsync(id, upsertRequest.Token);
 
-            if(advertising == null)
+            if (advertising == null)
             {
                 return NotFound();
             }
@@ -103,13 +103,13 @@ namespace AdvertisingServer.Controllers.V1
         [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Invalid parameters were specified")]
         public async Task<IActionResult> Delete(int id, string token)
         {
-            if(CheckValue(id, nameof(id)) || CheckValue(token, nameof(token)))
+            if (CheckValue(id, nameof(id)) || CheckValue(token, nameof(token)))
             {
                 return BadRequest(string.Format(Messages.NotAllParametersSpecified, Container.ToString()));
             }
 
             var advertising = _adService.GetAdvertisingByIdAndTokenAsync(id, token);
-            if(advertising == null)
+            if (advertising == null)
             {
                 return NotFound();
             }
