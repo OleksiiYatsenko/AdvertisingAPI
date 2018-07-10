@@ -1,12 +1,11 @@
 ﻿using AdvertisingServer.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using AdvertisingServer.Models.Dto.Advertising;
 using AdvertisingServer.Infrastructure.Base;
 using AdvertisingServer.Models.Constants;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdvertisingServer.Controllers.V1
 {
@@ -17,16 +16,16 @@ namespace AdvertisingServer.Controllers.V1
     {
         private readonly IAdvertisingService _adService;
 
-        protected AdvertisingController(IAdvertisingService advertisingService)
+        public AdvertisingController(IAdvertisingService advertisingService)
         {
             _adService = advertisingService;
         }
         
         [HttpGet]
         [SwaggerOperation(nameof(GetAll))]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(IEnumerable<AdvertisingBase>), "Successfully found advertisings")]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(AdvertisingBase[]), Description = "Successfully found advertisings")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Specified invalid parametes")]
-        public async Task<ActionResult<IEnumerable<AdvertisingBase>>> GetAll(string token)
+        public async Task<ActionResult<AdvertisingBase[]>> GetAll(string token)
         {
             if (CheckValue(token, nameof(token)))
             {
@@ -38,14 +37,14 @@ namespace AdvertisingServer.Controllers.V1
             return Ok(result);
         }
         
-        [HttpGet("{id}")]
-        [SwaggerOperation(nameof(GetById))]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(AdvertisingBase), "Successfully found advertising")]
+        [HttpGet("{id}", Name = "GetAdvertising")]
+        [SwaggerOperation("GetAdvertisingActionResult")]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(AdvertisingBase), description: "Successfully found advertising")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, description: "Advertising not found")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Invalid parameters were specified")]
         public async Task<ActionResult<AdvertisingBase>> GetById(int id, string token)
         {
-            if (CheckValue(id, nameof(id)) || CheckValue(token, nameof(token)))
+            if (CheckValue(id, nameof(id)) | CheckValue(token, nameof(token)))
             {
                 return BadRequest(string.Format(Messages.NotAllParametersSpecified, Container.ToString()));
             }
@@ -62,12 +61,12 @@ namespace AdvertisingServer.Controllers.V1
         
         [HttpPost]
         [SwaggerOperation(nameof(Create))]
-        [SwaggerResponse((int)HttpStatusCode.Created, typeof(AdvertisingBase), "Advertising successfully created")]
+        [SwaggerResponse((int)HttpStatusCode.Created, type: typeof(AdvertisingBase), description: "Advertising successfully created")]
         public async Task<ActionResult<AdvertisingBase>> Create([FromBody] AdvertisingBase upsertRequest)
         {
             upsertRequest.AdvertisingId = 0;
-            var responce = await _adService.AddAdvertisingAsync(upsertRequest);
-            return CreatedAtRoute(nameof(GetById), new { id = responce.AdvertisingId, token = responce.Token }, responce);
+            var response = await _adService.AddAdvertisingAsync(upsertRequest);
+            return CreatedAtRoute("GetAdvertising", new { id = response.AdvertisingId, token = response.Token }, response);
         }
         
         [HttpPut("{id}")]

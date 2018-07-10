@@ -1,5 +1,6 @@
 ﻿using System;
 using AdvertisingServer.Infrastructure.Extensions;
+using AdvertisingServer.Infrastructure.Swagger;
 using AdvertisingServer.Models;
 using LightInject;
 using LightInject.Microsoft.DependencyInjection;
@@ -24,7 +25,8 @@ namespace AdvertisingServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
+            services.AddMvc(c => c.Conventions.Add(new ApiExplorerGroupPerVersionConvention()))
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddControllersAsServices();
 
             services.AddCors();
 
@@ -32,6 +34,7 @@ namespace AdvertisingServer
             {
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.DefaultApiVersion = new ApiVersion(1, 0);
+                o.ReportApiVersions = true;
             });
 
             services.AddEntityFrameworkInMemoryDatabase();
@@ -72,7 +75,7 @@ namespace AdvertisingServer
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Advertising API v1");
-                c.RoutePrefix = String.Empty;
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "Advertising API v2");
             });
 
             app.UseHttpsRedirection();

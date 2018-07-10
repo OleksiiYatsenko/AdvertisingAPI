@@ -3,10 +3,10 @@ using AdvertisingServer.Infrastructure.Interfaces;
 using AdvertisingServer.Models.Constants;
 using AdvertisingServer.Models.Dto.Publishing;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdvertisingServer.Controllers.V1
 {
@@ -24,7 +24,7 @@ namespace AdvertisingServer.Controllers.V1
         
         [HttpGet]
         [SwaggerOperation(nameof(GetAll))]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(IEnumerable<PublishingBase>), "Successfully found publishings relayted to you")]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(IEnumerable<PublishingBase>), description: "Successfully found publishings relayted to you")]
         public async Task<ActionResult<IEnumerable<PublishingBase>>> GetAll(string token)
         {
             if (CheckValue(token, nameof(token)))
@@ -38,7 +38,7 @@ namespace AdvertisingServer.Controllers.V1
         
         [HttpGet("advertising/{advertisingId}")]
         [SwaggerOperation(nameof(GetByAdvertisingId))]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(IEnumerable<PublishingBase>), "Seccessfully found publishings relayted to you filtered by advertising")]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(IEnumerable<PublishingBase>), description: "Seccessfully found publishings relayted to you filtered by advertising")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Specified invalid parameters")]
         public async Task<ActionResult<IEnumerable<PublishingBase>>> GetByAdvertisingId(int advertisingId, string token)
         {
@@ -54,7 +54,7 @@ namespace AdvertisingServer.Controllers.V1
 
         [HttpGet("channel/{channelId}")]
         [SwaggerOperation(nameof(GetByChannelId))]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(IEnumerable<PublishingBase>), "Seccessfully found publishings relayted to you filtered by channel")]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(IEnumerable<PublishingBase>), description: "Seccessfully found publishings relayted to you filtered by channel")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Specified invalid parameters")]
         public async Task<ActionResult<IEnumerable<PublishingBase>>> GetByChannelId(int chennelId, string token)
         {
@@ -70,7 +70,7 @@ namespace AdvertisingServer.Controllers.V1
 
         [HttpGet("advertising/{advertisingId}/channel/{channelId}")]
         [SwaggerOperation(nameof(GetPublishing))]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(PublishingBase), "Seccessfully found publishing")]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(PublishingBase), description: "Seccessfully found publishing")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Specified invalid parameters")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, description: "Publishing information not found")]
         public async Task<ActionResult<PublishingBase>> GetPublishing(int advertisingId, int chennelId, string token)
@@ -91,7 +91,7 @@ namespace AdvertisingServer.Controllers.V1
 
         [HttpGet("{id}")]
         [SwaggerOperation(nameof(GetPublishingById))]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(PublishingBase), "Seccessfully found publishing")]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(PublishingBase), description: "Seccessfully found publishing")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Specified invalid parameters")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, description: "Publishing information not found")]
         public async Task<ActionResult<PublishingBase>> GetPublishingById(int id, string token)
@@ -112,7 +112,7 @@ namespace AdvertisingServer.Controllers.V1
         
         [HttpPost]
         [SwaggerOperation(nameof(Push))]
-        [SwaggerResponse((int)HttpStatusCode.Created, typeof(PublishingBase), "Seccessfully published advertising")]
+        [SwaggerResponse((int)HttpStatusCode.Created, type: typeof(PublishingBase), description: "Seccessfully published advertising")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Specified invalid parameters")]
         public async Task<ActionResult<PublishingBase>> Push([FromBody] PublishingBase request)
         {

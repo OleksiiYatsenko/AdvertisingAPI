@@ -3,10 +3,10 @@ using AdvertisingServer.Infrastructure.Interfaces;
 using AdvertisingServer.Models.Constants;
 using AdvertisingServer.Models.Dto.Channel;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AdvertisingServer.Controllers.V1
 {
@@ -24,7 +24,7 @@ namespace AdvertisingServer.Controllers.V1
         
         [HttpGet]
         [SwaggerOperation(nameof(GetAll))]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(IEnumerable<ChannelBase>), "Successfully found available channels")]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(IEnumerable<ChannelBase>), description: "Successfully found available channels")]
         public async Task<ActionResult<IEnumerable<ChannelBase>>> GetAll()
         {
             var result = await _channelService.GetChannelsAsync();
@@ -33,7 +33,7 @@ namespace AdvertisingServer.Controllers.V1
         
         [HttpGet("{id}")]
         [SwaggerOperation(nameof(GetById))]
-        [SwaggerResponse((int)HttpStatusCode.OK, typeof(ChannelBase), "Successfully found channel")]
+        [SwaggerResponse((int)HttpStatusCode.OK, type: typeof(ChannelBase), description: "Successfully found channel")]
         [SwaggerResponse((int)HttpStatusCode.BadRequest, description: "Channel not found")]
         [SwaggerResponse((int)HttpStatusCode.NotFound, description: "Invalid parameters were specified")]
         public async Task<ActionResult<ChannelBase>> GetById(int id)
@@ -54,7 +54,7 @@ namespace AdvertisingServer.Controllers.V1
         
         [HttpPost]
         [SwaggerOperation(nameof(Create))]
-        [SwaggerResponse((int)HttpStatusCode.Created, typeof(ChannelBase), "Channel successfully created")]
+        [SwaggerResponse((int)HttpStatusCode.Created, type: typeof(ChannelBase), description: "Channel successfully created")]
         public async Task<ActionResult<ChannelBase>> Create([FromBody] ChannelBase request)
         {
             request.ChannelId = 0;

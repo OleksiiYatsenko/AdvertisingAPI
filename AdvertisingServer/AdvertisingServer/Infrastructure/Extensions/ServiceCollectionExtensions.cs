@@ -1,12 +1,11 @@
-﻿using System.ComponentModel.Design;
-using System.Linq;
-using System.Reflection;
-using AdvertisingServer.Infrastructure.Interfaces;
+﻿using AdvertisingServer.Infrastructure.Interfaces;
 using AdvertisingServer.Infrastructure.Services;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Linq;
+using System.Reflection;
 
 namespace AdvertisingServer.Infrastructure.Extensions
 {
@@ -27,6 +26,18 @@ namespace AdvertisingServer.Infrastructure.Extensions
                 {
                     Version = "v1",
                     Title = "Advertising server API",
+                    Description = "RESTfull service for advertising lifecycle",
+                    Contact = new Contact
+                    {
+                        Email = "creatorcompany@creatorcompany.com",
+                        Name = "CreatorCompany",
+                        Url = "creatorcompany.azurewebsite.com"
+                    }
+                });
+                sg.SwaggerDoc("v2", new Info
+                {
+                    Title = "Advertising server API",
+                    Version = "v2",
                     Description = "RESTfull service for advertising lifecycle",
                     Contact = new Contact
                     {

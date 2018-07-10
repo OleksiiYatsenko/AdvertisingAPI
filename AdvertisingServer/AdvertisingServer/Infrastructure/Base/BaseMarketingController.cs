@@ -18,6 +18,7 @@ namespace AdvertisingServer.Infrastructure.Base
             {
                 case string s when string.IsNullOrWhiteSpace(s):
                 case int d when d <= 0:
+                case null:
                     {
                         Container.Add(name);
                         return true;
